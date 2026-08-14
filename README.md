@@ -1,5 +1,4 @@
-# Parichart — Software Tester Portfolio (Static, for GitHub Pages)
-
+# Parichart — Software Tester Portfolio 
 Plain HTML/CSS site — no server needed, so it can be hosted for free on
 GitHub Pages and opened by anyone with a link, no localhost required.
 
