@@ -2,219 +2,477 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Parichart Sae-yhoong — Software Tester | QA Engineer</title>
-
-    <link rel="stylesheet" href="style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Parichart Saeyhoong — Software QA, test automation, and Business Analysis case studies."
+    />
+    <title>Parichart Saeyhoong | Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="style.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
   </head>
   <body>
-    <header>
-      <nav>
-        <div class="logo">P</div>
-
-        <ul>
-          <li><a href="#home">Home</a></li>
-          <li><a href="#about">About</a></li>
+    <header class="site-header">
+      <nav class="nav wrap" aria-label="Main navigation">
+        <a class="brand" href="#home" aria-label="portfolio home"
+          ><span class="brand-mark">✨</span
+          ><span>Portfolio<span class="brand-dot">.</span></span></a
+        >
+        <button
+          class="menu-toggle"
+          aria-label="Toggle navigation"
+          aria-expanded="false"
+        >
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <ul class="nav-links">
+          <li>
+            <a href="#about">About</a>
+          </li>
           <li><a href="#skills">Skills</a></li>
-          <li><a href="#project">Projects</a></li>
+          <li><a href="#projects">Projects</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
       </nav>
     </header>
-
     <main>
-      <section class="hero" id="home">
-        <article>
-          <p class="intro">Hello, I'm</p>
-          <h2>Parichart</h2>
-          <h3>Software Tester | QA Engineer</h3>
-          <p class="description">
-            Manual Testing &bull; Automation Testing &bull; Quality Assurance
+      <section class="hero wrap" id="home">
+        <div class="hero-copy">
+          <p class="eyebrow">
+            <span class="eyebrow-line"></span> ✨ SOFTWARE QUALITY · SYSTEM
+            THINKING
           </p>
+          <h1>
+            Hi, I’m <span class="gradient-text">Parichart.</span><br />
+            I make systems easier to <span class="gradient-text">trust.</span>
+          </h1>
+          <p class="hero-lead">
+            A Computer Science graduate with hands-on software testing
+            experience and an interest in Business Analysis. I enjoy
+            understanding how a system should work, checking what can go wrong,
+            and turning findings into clear requirements and testable outcomes.
+          </p>
+          <div class="hero-tags">
+            <span>🧪 Manual QA</span><span>🤖 Test Automation</span
+            ><span>📝 BA Case Studies</span>
+          </div>
           <div class="hero-actions">
-            <a href="resume.pdf" class="btn-primary" download="Parichart_Sae-yhoong_Resume.pdf">
-              <i class="fa-solid fa-download"></i> Download CV
-            </a>
-            <a href="#contact" class="btn-secondary">
-              <i class="fa-solid fa-envelope"></i> Get in touch
-            </a>
+            <a class="btn btn-primary" href="#projects"
+              >🚀 Explore my work <i class="fa-solid fa-arrow-down"></i
+            ></a>
+            <a
+              class="btn btn-ghost"
+              href="resume.pdf"
+              target="_blank"
+              rel="noopener"
+              ><i class="fa-regular fa-file-pdf"></i> 📄 View Resume</a
+            >
           </div>
-        </article>
-
-        <figure class="hero-image">
-          <img src="./images/photo.png" alt="Parichart Saeyhoong" />
-        </figure>
+          <p class="hero-note">
+            <i class="fa-solid fa-location-dot"></i> Thailand · Open to
+            entry-level QA / BA / System Analyst opportunities
+          </p>
+        </div>
+        <div class="hero-visual">
+          <div class="visual-orbit orbit-one"></div>
+          <div class="visual-orbit orbit-two"></div>
+          <div class="profile-frame">
+            <img
+              src="images/photo.png"
+              alt="Portrait of Parichart Saeyhoong"
+              onerror="this.style.display='none';this.parentElement.classList.add('no-photo')"
+            />
+            <div class="fallback-initials">
+              📸<small>Add your photo here</small>
+            </div>
+          </div>
+          <div class="float-card float-card-top">
+            <span class="float-icon"
+              ><i class="fa-solid fa-list-check"></i></span
+            ><span
+              ><b>Think in test cases</b
+              ><small>Clear steps · Expected results</small></span
+            >
+          </div>
+          <div class="float-card float-card-bottom">
+            <span class="float-icon"
+              ><i class="fa-solid fa-diagram-project"></i></span
+            ><span
+              ><b>Connect the dots</b
+              ><small>Requirements → Flow → Tests</small></span
+            >
+          </div>
+        </div>
       </section>
 
+      <section class="section wrap" id="about">
+        <div class="section-heading">
+          <p class="eyebrow">A LITTLE ABOUT ME</p>
+          <h2>
+            Curious by nature.<br /><span class="muted-heading"
+              >Structured at work.</span
+            >
+          </h2>
+        </div>
+        <div class="about-layout">
+          <div class="about-copy">
+            <p>
+              I graduated in Applied Computer Science from King Mongkut’s
+              University of Technology Thonburi and spent a year as an exchange
+              student at Shibaura Institute of Technology in Japan through the
+              Sato Yo International Scholarship Foundation.
+            </p>
+            <p>
+              During a five-month Software Tester internship, I worked with test
+              cases, Jira defects, retesting, and UAT-related activities. That
+              experience made me interested not only in whether a feature works,
+              but also in why it is needed and how its requirements should be
+              communicated.
+            </p>
+            <p>
+              I’m now building practical examples that connect QA experience
+              with Business Analysis and System Analysis.
+            </p>
+          </div>
+          <div class="fact-grid">
+            <article class="fact-card">
+              <span class="fact-icon"
+                ><i class="fa-solid fa-graduation-cap"></i
+              ></span>
+              <h3>Education</h3>
+              <p>
+                B.Sc. in Applied Computer Science<br />KMUTT · Second-class
+                honors
+              </p>
+            </article>
+            <article class="fact-card">
+              <span class="fact-icon"
+                ><i class="fa-solid fa-globe-asia"></i
+              ></span>
+              <h3>Global experience</h3>
+              <p>
+                Exchange student at Shibaura Institute of Technology, Japan ·
+                2025–2026
+              </p>
+            </article>
+            <article class="fact-card">
+              <span class="fact-icon"><i class="fa-solid fa-bug"></i></span>
+              <h3>QA experience</h3>
+              <p>5-month Software Tester internship at Ocean Life Insurance</p>
+            </article>
+            <article class="fact-card">
+              <span class="fact-icon"
+                ><i class="fa-solid fa-compass-drafting"></i
+              ></span>
+              <h3>Current focus</h3>
+              <p>
+                Requirements, user flows, acceptance criteria, and testable
+                outcomes
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
 
-      <section class="about" id="about">
-        <h2 class="section-title">About Me</h2>
-        <div class="about-container">
-          <article class="about-card">
-            <div class="about-icon">🎓</div>
-            <h3>Education</h3>
-            <p>Bachelor of Science in Computer Science, King Mongkut's University of Technology Thonburi (2021–Present) &bull; GPAX 3.41</p>
-            <p>Exchange Student at Shibaura Institute of Technology, Japan 🇯🇵 (2025–2026), Sato Yo Foundation Scholarship recipient</p>
+      <section class="section section-tinted" id="skills">
+        <div class="wrap">
+          <div class="section-heading">
+            <p class="eyebrow">🧰 MY TOOLKIT</p>
+            <h2>Skills I can <span class="gradient-text">show.</span></h2>
+            <p class="section-intro">
+              Skills are grouped by how I use them. BA artifacts listed here are
+              portfolio practice based on an academic project, not
+              client-approved deliverables.
+            </p>
+          </div>
+          <div class="skills-grid">
+            <article class="skill-card">
+              <div class="skill-head">
+                <span class="skill-icon"
+                  ><i class="fa-solid fa-clipboard-check"></i
+                ></span>
+                <h3>Manual QA & Process</h3>
+              </div>
+              <div class="chip-list">
+                <span>Test Case Design</span><span>Functional Testing</span
+                ><span>Regression Testing</span><span>Retesting</span
+                ><span>UAT Support</span><span>Jira</span>
+              </div>
+              <p>
+                Document test scenarios, report defects, retest fixes, and
+                communicate findings.
+              </p>
+            </article>
+            <article class="skill-card">
+              <div class="skill-head">
+                <span class="skill-icon"
+                  ><i class="fa-solid fa-robot"></i
+                ></span>
+                <h3>Test Automation</h3>
+              </div>
+              <div class="chip-list">
+                <span>Robot Framework</span><span>Playwright</span
+                ><span>Cypress · basic exposure</span>
+              </div>
+              <p>
+                Practice automating repeatable web flows and checking expected
+                outcomes.
+              </p>
+            </article>
+            <article class="skill-card">
+              <div class="skill-head">
+                <span class="skill-icon"><i class="fa-solid fa-plug"></i></span>
+                <h3>API & Data</h3>
+              </div>
+              <div class="chip-list">
+                <span>Postman</span><span>REST API Testing</span
+                ><span>SQL · learning</span><span>SQLite</span>
+              </div>
+              <p>
+                Validate API responses and build foundational database-testing
+                skills.
+              </p>
+            </article>
+            <article class="skill-card">
+              <div class="skill-head">
+                <span class="skill-icon"
+                  ><i class="fa-solid fa-diagram-project"></i
+                ></span>
+                <h3>BA / System Analysis</h3>
+              </div>
+              <div class="chip-list">
+                <span>BRD</span><span>Functional Requirements</span
+                ><span>Use Case</span><span>User Flow</span
+                ><span>Acceptance Criteria</span><span>RTM</span>
+              </div>
+              <p>
+                Portfolio practice: translate an academic system into
+                requirements and traceable test scenarios.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section wrap" id="projects">
+        <div class="section-heading">
+          <p class="eyebrow">💻 SELECTED WORK</p>
+          <h2>Projects with a <span class="gradient-text">purpose.</span></h2>
+          <p class="section-intro">
+            I want each project to show the problem, the decisions I made, and
+            evidence of the work—not just a list of technologies.
+          </p>
+        </div>
+        <div class="projects-grid">
+          <article class="project-card featured-project" id="ba-case">
+            <div class="project-art my-photo">
+              <img src="./images/project2.png" alt="project_photo">
+            </div>
+            <div class="project-content">
+              <div class="project-meta">
+                <span>AI / Computer Vision</span><span>BA Case Study</span>
+              </div>
+              <h3>🤖 Face Recognition System with KD-Tree</h3>
+              <p>
+                Academic prototype using YOLO for face detection, InsightFace
+                for embeddings, and KD-Tree / cosine similarity for matching.
+                I’m extending this project with BA artifacts to show how
+                requirements connect to user flows and test cases.
+              </p>
+              <div class="chip-list">
+                <span>Python · Flask</span><span>Next.js</span
+                ><span>SQLite</span><span>Requirements</span
+                ><span>Test Cases</span>
+              </div>
+              <a href="ba-case-study.html" class="case-study-btn">
+                Explore case study
+                <span aria-hidden="true">→</span>
+              </a>
+            </div>
           </article>
-          <article class="about-card">
-            <div class="about-icon">🧪</div>
-            <h3>Interests</h3>
-            <p>Software Quality Assurance, Test Automation, Web &amp; API Testing, and Agile/Scrum testing workflows.</p>
+          <article class="project-card">
+            <div class="project-art my-photo">
+              <img src="./images/project3.png" alt="project_photo">
+            </div>
+            <div class="project-content">
+              <div class="project-meta">
+                <span>Web Development</span><span>Functional Testing</span>
+              </div>
+              <h3>🔎 Lost and Found Website</h3>
+              <p>
+                A responsive PHP website project for reporting and finding lost
+                items. Relevant areas include form behaviour, navigation, and
+                regression checks.
+              </p>
+              <div class="chip-list">
+                <span>PHP</span><span>XAMPP</span
+                ><span>Functional Testing</span>
+              </div>
+            </div>
           </article>
-          <article class="about-card">
-            <div class="about-icon">🛠️</div>
-            <h3>Tools I Use</h3>
-            <div class="skills-icons">
-              <i class="fa-solid fa-bug"></i>
-              <i class="fa-brands fa-jira"></i>
-              <i class="fa-solid fa-vial"></i>
-              <i class="fa-brands fa-git-alt"></i>
-              <i class="fa-solid fa-database"></i>
-              <i class="fa-brands fa-python"></i>
+          <article class="project-card">
+            <div class="project-art my-photo">
+              <img src="./images/project4.png" alt="project_photo">
+            </div>
+            <div class="project-content">
+              <div class="project-meta">
+                <span>AI / Computer Vision</span><span>Academic Project</span>
+              </div>
+              <h3>♻️ Garbage Classification</h3>
+              <p>
+                A waste-classification project using a YOLO model. My portfolio
+                description should be updated with the exact implementation and
+                testing tasks I personally completed.
+              </p>
+              <div class="chip-list">
+                <span>YOLO</span><span>Flask</span><span>Model Evaluation</span>
+              </div>
+            </div>
+          </article>
+          <article class="project-card">
+            <div class="project-art art-testing">
+              <div class="test-sheet">
+                <div class="test-sheet-title">TEST SCENARIOS</div>
+                <div>
+                  <i class="fa-solid fa-circle-check"></i
+                  ><span>Valid input</span>
+                </div>
+                <div>
+                  <i class="fa-solid fa-circle-check"></i
+                  ><span>Empty input</span>
+                </div>
+                <div>
+                  <i class="fa-solid fa-circle-exclamation"></i
+                  ><span>Boundary case</span>
+                </div>
+              </div>
+              <span class="art-label">04 / QA PRACTICE</span>
+            </div>
+            <div class="project-content">
+              <div class="project-meta">
+                <span>Software QA</span><span>Practice Project</span>
+              </div>
+              <h3>🧪 Web Testing Portfolio</h3>
+              <p>
+                A growing collection of runnable automation examples and
+                documented test scenarios. Add repository links and execution
+                evidence as each exercise is verified.
+              </p>
+              <div class="chip-list">
+                <span>Playwright</span><span>Test Design</span
+                ><span>Evidence</span>
+              </div>
+            </div>
+          </article>
+          <article class="project-card">
+            <div class="project-art my-photo">
+              <img src="./images/project1.png" alt="project_photo">
+            </div>
+            <div class="project-content">
+              <div class="project-meta">
+                <span>Mobile App</span><span>Manual & Usability Testing</span>
+              </div>
+              <h3>📲 Example App</h3>
+              <p>
+                Reviewed a mobile app UX/UI design and created manual test cases
+                to check layout consistency, navigation flow, and interface
+                behaviour across screen sizes.
+              </p>
+              <div class="chip-list">
+                <span>Figma</span><span>Manual Testing</span
+                ><span>Test Case Design</span>
+              </div>
             </div>
           </article>
         </div>
       </section>
 
-
-      <section class="testing-skills" id="skills">
-        <h2 class="section-title">Testing Toolbox</h2>
-        <div class="toolbox-grid">
-          <div class="toolbox-category">
-            <div class="toolbox-category-header">
-              <span class="toolbox-category-icon"><i class="fa-solid fa-clipboard-check"></i></span>
-              <h3>Manual &amp; Process</h3>
-            </div>
-            <div class="tool-badges">
-              <span class="tool-badge"><i class="fa-solid fa-list-check"></i><span>Test Case Design</span><em>Internship</em></span>
-              <span class="tool-badge"><i class="fa-solid fa-magnifying-glass"></i><span>Exploratory Testing</span></span>
-              <span class="tool-badge"><i class="fa-solid fa-arrows-rotate"></i><span>Regression Testing</span><em>Internship</em></span>
-              <span class="tool-badge"><i class="fa-brands fa-jira"></i><span>Bug Tracking (Jira)</span><em>Internship</em></span>
-            </div>
+      <section class="section section-tinted">
+        <div class="wrap ba-promo">
+          <div>
+            <p class="eyebrow">📝 FEATURED CASE STUDY</p>
+            <h2>
+              From system idea to<br /><span class="gradient-text"
+                >testable requirements.</span
+              >
+            </h2>
+            <p class="section-intro">
+              See how I structure a problem, identify users, draft requirements,
+              map a flow, and connect requirements to test cases. This is a
+              learning case study based on my academic project, not a
+              real-client engagement.
+            </p>
+            <a class="btn btn-primary" href="ba-case-study.html"
+              >View BA case study <i class="fa-solid fa-arrow-right"></i
+            ></a>
           </div>
-          <div class="toolbox-category">
-            <div class="toolbox-category-header">
-              <span class="toolbox-category-icon"><i class="fa-solid fa-plug"></i></span>
-              <h3>API Testing</h3>
+          <div class="deliverable-stack">
+            <div>
+              <span>01</span><b>Business Requirements</b
+              ><i class="fa-solid fa-file-lines"></i>
             </div>
-            <div class="tool-badges">
-              <span class="tool-badge"><i class="fa-solid fa-paper-plane"></i><span>Postman</span><em>Internship</em></span>
-              <span class="tool-badge"><i class="fa-solid fa-code"></i><span>REST API Validation</span><em>Internship</em></span>
+            <div>
+              <span>02</span><b>Functional Requirements</b
+              ><i class="fa-solid fa-list-check"></i>
             </div>
-          </div>
-          <div class="toolbox-category">
-            <div class="toolbox-category-header">
-              <span class="toolbox-category-icon"><i class="fa-solid fa-robot"></i></span>
-              <h3>Automation Testing</h3>
+            <div>
+              <span>03</span><b>Use Case & User Flow</b
+              ><i class="fa-solid fa-diagram-project"></i>
             </div>
-            <div class="tool-badges">
-              <span class="tool-badge"><i class="fa-solid fa-vial-circle-check"></i><span>Cypress</span><em>Internship</em></span>
-              <span class="tool-badge"><i class="fa-solid fa-play"></i><span>Playwright</span></span>
-              <span class="tool-badge"><i class="fa-solid fa-robot"></i><span>Robot Framework</span></span>
-            </div>
-          </div>
-          <div class="toolbox-category">
-            <div class="toolbox-category-header">
-              <span class="toolbox-category-icon"><i class="fa-solid fa-toolbox"></i></span>
-              <h3>Other</h3>
-            </div>
-            <div class="tool-badges">
-              <span class="tool-badge"><i class="fa-solid fa-database"></i><span>SQL &amp; Database Testing</span></span>
-              <span class="tool-badge"><i class="fa-brands fa-git-alt"></i><span>Git</span></span>
-              <span class="tool-badge"><i class="fa-solid fa-people-group"></i><span>Agile / Scrum</span></span>
+            <div>
+              <span>04</span><b>Test Cases & RTM</b
+              ><i class="fa-solid fa-table-cells-large"></i>
             </div>
           </div>
         </div>
       </section>
 
-
-      <section class="project" id="project">
-        <h2 class="section-title">Projects</h2>
-
-        <div class="project-grid">
-          <article class="project-card">
-            <img src="./images/project1.png" alt="Example App" class="project-image" />
-            <p class="project-type">Mobile App &bull; Manual &amp; Usability Testing</p>
-            <h3>Example App</h3>
-            <p>Reviewed a mobile app UX/UI design and performed manual and usability testing, writing test cases to check layout consistency, navigation flow, and interface behaviour across screen sizes.</p>
-            <p class="tech-stack">Figma &bull; Manual Testing &bull; Test Case Design</p>
-          </article>
-
-          <article class="project-card">
-            <img src="./images/project2.png" alt="Face Recognition by KD-Tree" class="project-image" />
-            <p class="project-type">Machine Learning &bull; Functional Testing</p>
-            <h3>Face Recognition by KD-Tree</h3>
-            <p>Built a face recognition system using a KD-Tree for nearest-neighbour search, then validated recognition accuracy and performance through functional and edge-case test scenarios.</p>
-            <p class="tech-stack">Python &bull; OpenCV &bull; KD-Tree &bull; Functional Testing</p>
-          </article>
-
-          <article class="project-card">
-            <img src="./images/project3.png" alt="Lost and Found Website" class="project-image" />
-            <p class="project-type">Web Application &bull; Functional &amp; Regression Testing</p>
-            <h3>Lost and Found Website</h3>
-            <p>Developed and tested a responsive PHP website for reporting and finding lost items, covering functional testing, regression testing, and bug reporting throughout the development cycle.</p>
-            <p class="tech-stack">PHP &bull; XAMPP &bull; Regression Testing</p>
-          </article>
-
-          <article class="project-card">
-            <img src="./images/project4.png" alt="Garbage Classification Website" class="project-image" />
-            <p class="project-type">AI Web App &bull; System &amp; API Testing</p>
-            <h3>Garbage Classification Website</h3>
-            <p>Tested a waste-sorting web app end to end: verified model classification accuracy, ran API tests on the Flask endpoints with Postman, and checked cross-browser UI behaviour.</p>
-            <p class="tech-stack">React &bull; Flask &bull; YOLO &bull; API Testing</p>
-          </article>
+      <section class="section wrap contact-section" id="contact">
+        <div class="section-heading">
+          <p class="eyebrow">💌 LET’S CONNECT</p>
+          <h2>
+            Let’s talk about <span class="gradient-text">good software.</span>
+          </h2>
+          <p class="section-intro">
+            I’m interested in entry-level opportunities in Software QA /
+            Testing, Business Analysis, and System Analysis.
+          </p>
+        </div>
+        <div class="contact-actions">
+          <a class="btn btn-primary" href="mailto:parichartsa24@gmail.com"
+            ><i class="fa-regular fa-envelope"></i> Email</a>
+          <a
+            class="btn btn-ghost"
+            href="resume.pdf"
+            target="_blank"
+            rel="noopener"
+            ><i class="fa-regular fa-file-pdf"></i> Resume</a
+          >
         </div>
       </section>
     </main>
-
-    <footer>
-        <p>Parichart Saeyhoong &bull; Email: parichartsa24@gmail.com</p>
-        <p>Tel: 061-523-0109</p>
-        <p>&copy; 2026</p>
-    </footer>
-
     <script>
-      const form = document.getElementById('contact-form');
-      const flash = document.getElementById('form-flash');
-
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const submitBtn = form.querySelector('button[type="submit"]');
-        submitBtn.disabled = true;
-
-        try {
-          const response = await fetch(form.action, {
-            method: 'POST',
-            body: new FormData(form),
-            headers: { Accept: 'application/json' },
-          });
-
-          if (response.ok) {
-            flash.textContent = "Thanks for reaching out! Your message has been sent.";
-            flash.className = 'form-flash form-flash--success';
-            form.reset();
-          } else {
-            flash.textContent = "Sorry, something went wrong sending your message. Please email me directly instead.";
-            flash.className = 'form-flash form-flash--error';
-          }
-        } catch (err) {
-          flash.textContent = "Sorry, something went wrong sending your message. Please email me directly instead.";
-          flash.className = 'form-flash form-flash--error';
-        } finally {
-          flash.hidden = false;
-          submitBtn.disabled = false;
-        }
+      const toggle = document.querySelector(".menu-toggle");
+      const links = document.querySelector(".nav-links");
+      toggle.addEventListener("click", () => {
+        const open = links.classList.toggle("is-open");
+        toggle.setAttribute("aria-expanded", String(open));
       });
+      links.querySelectorAll("a").forEach((link) =>
+        link.addEventListener("click", () => {
+          links.classList.remove("is-open");
+          toggle.setAttribute("aria-expanded", "false");
+        })
+      );
     </script>
   </body>
 </html>

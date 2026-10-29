@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="กรณีศึกษาด้าน Business Analysis จากโครงงานระบบจดจำใบหน้าด้วย KD-Tree ของ Parichart Yee Saeyhoong"
+    />
+    <title>กรณีศึกษา BA: ระบบจดจำใบหน้าด้วย KD-Tree | Yee</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        line-height: 1.75;
+      }
+      .case-hero .hero-lead,
+      .section-intro {
+        line-height: 1.85;
+      }
+      .case-card h3 {
+        line-height: 1.5;
+      }
+      .case-card p,
+      .case-card li {
+        line-height: 1.85;
+      }
+      .flowchart-wrap {
+        margin-top: 24px;
+        padding: clamp(16px, 3vw, 30px);
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.018);
+      }
+      .flowchart-title {
+        margin: 0 0 8px;
+        font-size: 15px;
+      }
+      .flowchart-caption {
+        color: var(--muted);
+        font-size: 12px;
+        margin: 0 0 22px;
+      }
+      .flow-row {
+        display: flex;
+        align-items: stretch;
+        justify-content: center;
+        gap: 10px;
+        margin: 12px 0;
+      }
+      .flow-node {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        min-height: 62px;
+        padding: 13px 15px;
+        flex: 1 1 0;
+        max-width: 230px;
+        border: 1px solid rgba(180, 154, 255, 0.27);
+        border-radius: 12px;
+        background: rgba(180, 154, 255, 0.075);
+        color: #eee8ff;
+        font-size: 12px;
+        line-height: 1.65;
+      }
+      .flow-node.start {
+        max-width: 130px;
+        min-height: 46px;
+        border-radius: 999px;
+        background: rgba(117, 211, 177, 0.08);
+        border-color: rgba(117, 211, 177, 0.32);
+      }
+      .flow-node.process {
+        background: rgba(180, 154, 255, 0.07);
+      }
+      .flow-node.success {
+        background: rgba(117, 211, 177, 0.08);
+        border-color: rgba(117, 211, 177, 0.3);
+      }
+      .flow-node.warning {
+        background: rgba(240, 189, 126, 0.07);
+        border-color: rgba(240, 189, 126, 0.3);
+      }
+      .flow-connector {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--accent);
+        min-width: 18px;
+        font-size: 14px;
+      }
+      .flow-down {
+        text-align: center;
+        color: var(--accent);
+        font-size: 17px;
+        line-height: 1.7;
+      }
+      .flow-decision {
+        width: min(260px, 90%);
+        min-height: 78px;
+        margin: 8px auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 16px 25px;
+        color: #fff0d8;
+        font-size: 12px;
+        line-height: 1.6;
+        background: rgba(240, 189, 126, 0.08);
+        border: 1px solid rgba(240, 189, 126, 0.38);
+        clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+      }
+      .flow-branches {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+        margin-top: 12px;
+      }
+      .flow-branch {
+        padding: 16px;
+        border: 1px dashed var(--line);
+        border-radius: 14px;
+        min-width: 0;
+      }
+      .flow-branch h4 {
+        margin: 0 0 12px;
+        font-size: 12px;
+        color: var(--muted);
+        text-align: center;
+      }
+      .flow-branch .flow-node {
+        max-width: none;
+        width: 100%;
+        margin: 0 auto;
+      }
+      .flow-branch .flow-down {
+        margin: 5px 0;
+      }
+      .flow-mini-branches {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .flow-mini-branches .flow-node {
+        font-size: 11px;
+        padding: 10px;
+      }
+      .flow-note {
+        margin-top: 18px;
+        color: var(--soft);
+        font-size: 11px;
+      }
+      .section-kicker {
+        color: var(--accent);
+      }
+      .case-card .small-note {
+        font-size: 11px;
+        color: var(--soft);
+        margin-top: 12px;
+      }
+      .doc-link b {
+        line-height: 1.7;
+      }
+      @media (max-width: 700px) {
+        .flow-row {
+          flex-direction: column;
+          align-items: center;
+        }
+        .flow-node,
+        .flow-node.start {
+          width: 100%;
+          max-width: 100%;
+          min-height: 54px;
+        }
+        .flow-connector {
+          transform: rotate(90deg);
+          min-height: 18px;
+        }
+        .flow-branches {
+          grid-template-columns: 1fr;
+        }
+        .flow-mini-branches {
+          grid-template-columns: 1fr 1fr;
+        }
+        .flow-decision {
+          min-height: 75px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav wrap" aria-label="เมนูหลัก">
+        <a class="brand" href="index.html" aria-label="กลับสู่ Portfolio"
+          ><span class="brand-mark">Y</span
+          ><span>Portfolio<span class="brand-dot">.</span></span></a
+        >
+        <button
+          class="menu-toggle"
+          aria-label="เปิดหรือปิดเมนู"
+          aria-expanded="false"
+        >
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <ul class="nav-links">
+          <li><a href="index.html#about">About</a></li>
+          <li><a href="index.html#skills">Skill</a></li>
+          <li><a href="index.html#projects">Project</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <section class="case-hero wrap">
+        <a class="back-link" href="index.html#projects"
+          ><i class="fa-solid fa-arrow-left"></i> กลับไปหน้า Portfolio</a
+        >
+        <p class="eyebrow">ผลงานเด่น · กรณีศึกษา BUSINESS ANALYSIS</p>
+        <h1>
+          ระบบจดจำใบหน้า<br /><span class="gradient-text"
+            >ด้วยการปรับปรุงการค้นหาด้วย KD-Tree</span
+          >
+        </h1>
+        <p class="hero-lead">
+          กรณีศึกษานี้แสดงให้เห็นการนำโครงงาน AI
+          เชิงวิชาการมาวิเคราะห์และจัดทำเอกสารในมุมมอง Business Analyst
+          ตั้งแต่ความต้องการทางธุรกิจ ข้อกำหนดการทำงานของระบบ ลำดับการใช้งาน
+          ไปจนถึงการออกแบบกรณีทดสอบ
+        </p>
+        <div class="case-tags">
+          <span>โครงงานเชิงวิชาการ: 2024</span><span>Python · Flask</span
+          ><span>Next.js</span><span>SQLite</span
+          ><span>YOLO · InsightFace · KD-Tree</span>
+        </div>
+        <div class="notice">
+          <b>หมายเหตุเพื่อความโปร่งใส:</b>
+          ระบบจดจำใบหน้านี้เป็นต้นแบบจากโครงงานวิชาการและยังไม่ได้นำไปใช้งานจริง
+          เอกสาร BA ในหน้านี้จัดทำขึ้นเพื่อเป็นผลงานใน Portfolio
+          โดยอ้างอิงจากรายงานโครงงาน ไม่ได้มาจากการเก็บความต้องการของลูกค้าจริง
+          ข้อเสนอที่ยังไม่ได้ยืนยันจะระบุไว้ชัดเจนว่าเป็นข้อสมมติหรือประเด็นที่ต้องตรวจสอบเพิ่มเติม
+        </div>
+      </section>
+
+      <section class="section wrap" style="padding-top: 15px">
+        <div class="section-heading">
+          <p class="eyebrow">01 / ภาพรวมโครงการ</p>
+          <h2>
+            ทำความเข้าใจระบบ<br /><span class="muted-heading"
+              >ก่อนกำหนดความต้องการ</span
+            >
+          </h2>
+        </div>
+        <div class="case-grid">
+          <article class="case-card">
+            <h3><i class="fa-solid fa-bullseye"></i> วัตถุประสงค์ของโครงการ</h3>
+            <p>
+              ศึกษาการสร้างต้นแบบระบบจดจำใบหน้าแบบเรียลไทม์เพื่อช่วยระบุตัวบุคคล
+              ระบบตรวจจับใบหน้า แปลงใบหน้าเป็นเวกเตอร์คุณลักษณะ
+              เปรียบเทียบกับข้อมูลที่ลงทะเบียนไว้
+              และเปิดให้ผู้ดูแลตรวจสอบใบหน้าที่ไม่พบข้อมูลตรงกันก่อนพิจารณาเพิ่มข้อมูล
+            </p>
+          </article>
+          <article class="case-card">
+            <h3><i class="fa-solid fa-users"></i> ผู้มีส่วนเกี่ยวข้อง</h3>
+            <ul>
+              <li><b>ผู้ดูแลระบบ:</b> ตรวจสอบและจัดการข้อมูลใบหน้า</li>
+              <li><b>ผู้ใช้งานระบบ:</b> ใช้งานขั้นตอนการจดจำใบหน้า</li>
+              <li><b>ทีมพัฒนา:</b> พัฒนาและทดสอบการทำงานของระบบ</li>
+            </ul>
+            <p class="small-note">
+              บทบาทเหล่านี้อนุมานจากต้นแบบ
+              และต้องตรวจสอบยืนยันหากนำระบบไปใช้งานจริง
+            </p>
+          </article>
+          <article class="case-card">
+            <h3>
+              <i class="fa-solid fa-magnifying-glass"></i>
+              ประเด็นปัญหาที่ต้องรองรับ
+            </h3>
+            <ul>
+              <li>เปรียบเทียบใบหน้าที่ตรวจพบกับข้อมูลที่ลงทะเบียนไว้</li>
+              <li>มีขั้นตอนตรวจสอบใบหน้าที่ไม่พบข้อมูลตรงกัน</li>
+              <li>แสดงผลการจดจำให้ผู้ดูแลเข้าใจได้</li>
+            </ul>
+          </article>
+          <article class="case-card">
+            <h3><i class="fa-solid fa-layer-group"></i> ภาพรวมเทคโนโลยี</h3>
+            <ul>
+              <li><b>Frontend:</b> Next.js</li>
+              <li><b>Backend:</b> Python + Flask</li>
+              <li><b>Database:</b> SQLite</li>
+              <li><b>Face detection:</b> YOLO + NMS</li>
+              <li><b>Face extracting:</b> InsightFace</li>
+              <li>
+                <b>Searching and compare :</b> KD-Tree and Cosine Similarity
+              </li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section section-tinted">
+        <div class="wrap">
+          <div class="section-heading">
+            <p class="eyebrow">02 / ข้อกำหนด</p>
+            <h2>
+              จากความต้องการทางธุรกิจ<br /><span class="gradient-text"
+                >สู่การทำงานของระบบ</span
+              >
+            </h2>
+            <p class="section-intro">
+              ข้อกำหนดทางธุรกิจ (BR) อธิบายผลลัพธ์ที่ระบบควรสนับสนุน
+              ส่วนข้อกำหนดเชิงหน้าที่ (FR) อธิบายพฤติกรรมที่ระบบต้องทำได้
+              เพื่อนำไปพูดคุย พัฒนา และทดสอบต่อ
+            </p>
+          </div>
+          <div class="case-grid">
+            <article class="case-card">
+              <h3>📝 ข้อกำหนดทางธุรกิจ (Business Requirements: BR)</h3>
+              <ul>
+                <li>
+                  <b>BR-001:</b> ระบบควรรองรับการระบุตัวบุคคล
+                  โดยเปรียบเทียบใบหน้าที่ตรวจพบกับข้อมูลใบหน้าที่ลงทะเบียนไว้
+                </li>
+                <li>
+                  <b>BR-002:</b> ผู้ดูแลระบบควรตรวจสอบใบหน้าที่ไม่รู้จัก
+                  และเลือกอนุมัติหรือปฏิเสธการเพิ่มข้อมูลใบหน้านั้นได้
+                </li>
+                <li>
+                  <b>BR-003:</b>
+                  ระบบควรรองรับการจัดเก็บและจัดการข้อมูลใบหน้าที่ลงทะเบียนไว้อย่างเป็นระบบ
+                </li>
+                <li>
+                  <b>BR-004 · ข้อเสนอเพิ่มเติม:</b> ก่อนนำไปใช้งานจริง
+                  ควรพิจารณาความเป็นส่วนตัว การควบคุมสิทธิ์ การตรวจสอบโดยมนุษย์
+                  และการจัดการกรณีระบบจดจำผิดพลาด
+                </li>
+              </ul>
+              <p class="small-note">
+                <b>หมายเหตุ:</b> BR-001 ถึง BR-003
+                อ้างอิงจากขอบเขตของต้นแบบเชิงวิชาการ ส่วน BR-004
+                เป็นข้อเสนอที่ต้องตรวจสอบกับผู้มีส่วนเกี่ยวข้องเพิ่มเติม
+              </p>
+            </article>
+            <article class="case-card">
+              <h3>⚙️ ข้อกำหนดเชิงหน้าที่ (Functional Requirements: FR)</h3>
+              <ul>
+                <li><b>FR-001:</b> ระบบสามารถรับภาพใบหน้าจากกล้องเว็บแคมได้</li>
+                <li>
+                  <b>FR-002:</b> ระบบสามารถตรวจจับตำแหน่งใบหน้าในภาพที่ได้รับได้
+                </li>
+                <li>
+                  <b>FR-003:</b>
+                  ระบบสามารถแปลงคุณลักษณะใบหน้าเป็นข้อมูลเวกเตอร์ได้
+                </li>
+                <li>
+                  <b>FR-004:</b>
+                  ระบบสามารถเปรียบเทียบเวกเตอร์กับข้อมูลใบหน้าที่ลงทะเบียนไว้ได้
+                </li>
+                <li><b>FR-005:</b> ระบบสามารถแสดงผลการจดจำใบหน้าได้</li>
+                <li>
+                  <b>FR-006:</b>
+                  ระบบสามารถแจ้งหรือแสดงใบหน้าที่ไม่พบข้อมูลตรงกันเพื่อรอการตรวจสอบได้
+                </li>
+                <li>
+                  <b>FR-007:</b>
+                  ผู้ดูแลระบบสามารถอนุมัติหรือปฏิเสธการเพิ่มข้อมูลใบหน้าใหม่ได้
+                </li>
+              </ul>
+            </article>
+            <article class="case-card wide">
+              <h3>
+                เกณฑ์การยอมรับ (Acceptance Criteria) ตัวอย่างสำหรับ FR-007
+              </h3>
+              <ul>
+                <li>
+                  <b>เมื่อ</b> มีใบหน้าที่ไม่รู้จักรอการตรวจสอบ
+                  <b>และเมื่อ</b> ผู้ดูแลระบบอนุมัติ
+                  <b>ผลที่คาดหวังคือ</b>
+                  ระบบบันทึกข้อมูลตามขั้นตอนที่กำหนดและแสดงผลการดำเนินการที่ถูกต้อง
+                </li>
+                <li>
+                  <b>เมื่อ</b> มีใบหน้าที่ไม่รู้จักรอการตรวจสอบ
+                  <b>และเมื่อ</b> ผู้ดูแลระบบปฏิเสธ
+                  <b>ผลที่คาดหวังคือ</b>
+                  ระบบต้องไม่เพิ่มใบหน้านั้นลงในชุดข้อมูลใบหน้าที่ลงทะเบียนไว้
+                </li>
+                <li>
+                  <b>เมื่อ</b> การบันทึกข้อมูลล้มเหลวระหว่างการอนุมัติ
+                  <b>ผลที่คาดหวังคือ</b>
+                  ระบบแสดงข้อความผิดพลาดและต้องไม่แสดงว่าบันทึกสำเร็จ
+                </li>
+              </ul>
+              <p class="small-note">
+                เกณฑ์เหล่านี้เป็นข้อเสนอสำหรับกรณีศึกษา
+                ควรตรวจสอบพฤติกรรมจริงของต้นแบบก่อนระบุว่าเป็นความสามารถที่พัฒนาเสร็จแล้ว
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section wrap" id="user-flow">
+        <div class="section-heading">
+          <p class="eyebrow">03 / USER FLOW</p>
+          <h2>
+            ลำดับการใช้งาน<br /><span class="gradient-text"
+              >ตั้งแต่เปิดกล้องจนเห็นคะแนน</span
+            >
+          </h2>
+          <p class="section-intro">
+            แผนภาพนี้แปลงขั้นตอนจาก Flow
+            ต้นฉบับให้เห็นเส้นทางการใช้งานของผู้ใช้ควบคู่กับสิ่งที่ระบบทำเบื้องหลัง
+            โดยคงเทคโนโลยีและลำดับการประมวลผลตามภาพที่ได้รับ
+          </p>
+        </div>
+        <div class="flowchart-wrap">
+          <h3 class="flowchart-title">
+            User Flow: การตรวจจับบุคคลและแสดง Familiar Score
+          </h3>
+          <p class="flowchart-caption">
+            ลำดับหลักอ้างอิงจากภาพต้นฉบับ
+            ส่วนกรณีไม่พบคนในวิดีโอแสดงเป็นเส้นทางวนกลับเพื่อรอรับภาพถัดไป
+          </p>
+          <div class="flow-row">
+            <div class="flow-node start">เริ่มต้น</div>
+            <div class="flow-connector">
+              <i class="fa-solid fa-arrow-right"></i>
+            </div>
+            <div class="flow-node process">
+              ผู้ใช้เปิดกล้องหรือเริ่มส่งวิดีโอ
+            </div>
+            <div class="flow-connector">
+              <i class="fa-solid fa-arrow-right"></i>
+            </div>
+            <div class="flow-node process">ระบบรับวิดีโอแบบเรียลไทม์</div>
+            <div class="flow-connector">
+              <i class="fa-solid fa-arrow-right"></i>
+            </div>
+            <div class="flow-node process">YOLO ตรวจจับบุคคลในวิดีโอ</div>
+          </div>
+          <div class="flow-down"><i class="fa-solid fa-arrow-down"></i></div>
+          <div class="flow-decision">ตรวจพบบุคคลในวิดีโอหรือไม่?</div>
+          <div class="flow-branches">
+            <div class="flow-branch">
+              <h4>กรณีที่ 1 · ยังไม่พบบุคคล</h4>
+              <div class="flow-node warning">รอรับภาพหรือเฟรมถัดไปจากกล้อง</div>
+              <div class="flow-down"><i class="fa-solid fa-arrow-up"></i></div>
+              <p class="flow-note">
+                เป็นเส้นทางวนกลับที่อนุมานเพื่อให้การรับวิดีโอต่อเนื่อง
+                ไม่ได้แสดงเป็นขั้นตอนแยกในภาพต้นฉบับ
+              </p>
+            </div>
+            <div class="flow-branch">
+              <h4>กรณีที่ 2 · พบบุคคล</h4>
+              <div class="flow-node process">
+                ประมวลผลกรอบบุคคลด้วย Bounding Box และ IoU
+              </div>
+              <div class="flow-down">
+                <i class="fa-solid fa-arrow-down"></i>
+              </div>
+              <div class="flow-node process">
+                ใช้ DeepFace สกัด Face Embedding
+              </div>
+              <div class="flow-down">
+                <i class="fa-solid fa-arrow-down"></i>
+              </div>
+              <div class="flow-node process">
+                ค้นหาใบหน้าที่คล้ายกันด้วย KD-Tree
+              </div>
+              <div class="flow-down">
+                <i class="fa-solid fa-arrow-down"></i>
+              </div>
+              <div class="flow-node process">
+                ใช้ Cosine Similarity เปรียบเทียบใบหน้า
+              </div>
+              <div class="flow-down">
+                <i class="fa-solid fa-arrow-down"></i>
+              </div>
+              <div class="flow-node process">
+                ใช้ Hierarchical Clustering เพื่อหากลุ่มใบหน้าที่คล้ายกัน
+              </div>
+              <div class="flow-down">
+                <i class="fa-solid fa-arrow-down"></i>
+              </div>
+              <div class="flow-node process">
+                อัปเดต KD-Tree / Familiar Score
+              </div>
+              <div class="flow-down">
+                <i class="fa-solid fa-arrow-down"></i>
+              </div>
+              <div class="flow-node process">ส่ง Familiar Score ผ่าน API</div>
+              <div class="flow-down">
+                <i class="fa-solid fa-arrow-down"></i>
+              </div>
+              <div class="flow-node success">
+                ผู้ใช้เห็น Familiar Score บนเว็บไซต์
+              </div>
+              <div class="flow-down">
+                <i class="fa-solid fa-arrow-down"></i>
+              </div>
+              <div class="flow-node success">จบขั้นตอนการแสดงผล</div>
+            </div>
+          </div>
+        </div>
+        <div class="case-grid" style="margin-top: 22px">
+          <article class="case-card">
+            <h3>เส้นทางหลัก (Main Flow)</h3>
+            <ol>
+              <li>ผู้ใช้เปิดกล้องหรือเริ่มส่งวิดีโอเข้าสู่ระบบ</li>
+              <li>
+                YOLO ตรวจจับบุคคลในวิดีโอ และระบบประมวลผล Bounding Box ด้วย IoU
+              </li>
+              <li>DeepFace สกัด Face Embedding จากใบหน้า</li>
+              <li>
+                ระบบค้นหาใบหน้าที่คล้ายกันใน KD-Tree และเปรียบเทียบด้วย Cosine
+                Similarity
+              </li>
+              <li>
+                ระบบใช้ Hierarchical Clustering เพื่อค้นหากลุ่มใบหน้าที่คล้ายกัน
+                และอัปเดต Familiar Score
+              </li>
+              <li>ระบบส่งคะแนนผ่าน API และแสดง Familiar Score บนเว็บไซต์</li>
+            </ol>
+          </article>
+          <article class="case-card">
+            <h3>เส้นทางทางเลือกและประเด็นที่ต้องยืนยัน</h3>
+            <ul>
+              <li>
+                <b>ไม่พบบุคคล:</b>
+                แผนภาพเสนอให้ระบบรอรับเฟรมถัดไปเพื่อทำงานต่อเนื่อง
+                โดยควรตรวจสอบกับพฤติกรรมจริงของต้นแบบ
+              </li>
+              <li>
+                <b>ไม่สามารถส่งคะแนนผ่าน API:</b>
+                ภาพต้นฉบับไม่ได้ระบุพฤติกรรมเมื่อเกิดข้อผิดพลาด
+                จึงควรกำหนดและทดสอบเพิ่มเติม
+              </li>
+              <li>
+                <b>การอัปเดตคะแนน:</b> ควรยืนยันวิธีคำนวณ Familiar Score
+                และจังหวะที่ระบบอัปเดตคะแนนกับทีมพัฒนา
+              </li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section section-tinted">
+        <div class="wrap">
+          <div class="section-heading">
+            <p class="eyebrow">04 / การออกแบบการทดสอบ</p>
+            <h2>ข้อกำหนดต้อง <span class="gradient-text">ทดสอบได้</span></h2>
+            <p class="section-intro">
+              รายการต่อไปนี้เป็นกรณีทดสอบที่ออกแบบไว้
+              ไม่ใช่ผลการทดสอบที่ดำเนินการแล้ว
+              จึงยังไม่ระบุผลผ่านหรือไม่ผ่านจนกว่าจะนำไปทดสอบกับระบบจริง
+            </p>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>รหัสทดสอบ</th>
+                  <th>ข้อกำหนด</th>
+                  <th>สถานการณ์ทดสอบ</th>
+                  <th>ผลลัพธ์ที่คาดหวัง</th>
+                  <th>สถานะ</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>TC-001</td>
+                  <td>FR-007</td>
+                  <td>อนุมัติใบหน้าที่ไม่รู้จัก</td>
+                  <td>ระบบบันทึกข้อมูลและแสดงผลสำเร็จ</td>
+                  <td>ยังไม่ได้ทดสอบ</td>
+                </tr>
+                <tr>
+                  <td>TC-002</td>
+                  <td>FR-007</td>
+                  <td>ปฏิเสธใบหน้าที่ไม่รู้จัก</td>
+                  <td>ระบบไม่เพิ่มใบหน้านั้นลงในข้อมูลที่ลงทะเบียนไว้</td>
+                  <td>ยังไม่ได้ทดสอบ</td>
+                </tr>
+                <tr>
+                  <td>TC-003</td>
+                  <td>FR-006</td>
+                  <td>ตรวจพบใบหน้าที่ไม่มีข้อมูลตรงกัน</td>
+                  <td>ระบบแจ้งหรือแสดงรายการให้ผู้ดูแลตรวจสอบ</td>
+                  <td>ยังไม่ได้ทดสอบ</td>
+                </tr>
+                <tr>
+                  <td>TC-004</td>
+                  <td>FR-007</td>
+                  <td>การบันทึกข้อมูลล้มเหลว</td>
+                  <td>ระบบแสดงข้อผิดพลาดและไม่แสดงผลสำเร็จที่ไม่เป็นจริง</td>
+                  <td>ยังไม่ได้ทดสอบ</td>
+                </tr>
+                <tr>
+                  <td>TC-005</td>
+                  <td>FR-004</td>
+                  <td>เปรียบเทียบใบหน้าที่มีข้อมูลลงทะเบียนแล้ว</td>
+                  <td>
+                    ระบบเปรียบเทียบกับข้อมูลที่ลงทะเบียนและแสดงผลตามที่ตรวจพบ
+                  </td>
+                  <td>ยังไม่ได้ทดสอบ</td>
+                </tr>
+                <tr>
+                  <td>TC-006</td>
+                  <td>FR-007</td>
+                  <td>อนุมัติรายการตรวจสอบเดิมซ้ำ</td>
+                  <td>ข้อเสนอ: ระบบควรป้องกันการลงทะเบียนข้อมูลซ้ำ</td>
+                  <td>ยังไม่ได้ทดสอบ</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="case-grid" style="margin-top: 20px">
+            <article class="case-card">
+              <h3>ขอบเขตที่ครอบคลุม</h3>
+              <p>
+                กรณีทดสอบที่ออกแบบไว้เน้นขั้นตอนการตรวจสอบใบหน้าใหม่และการตัดสินใจของผู้ดูแล
+                นอกจากนี้ควรทดสอบการตรวจจับและการเปรียบเทียบใบหน้าในกรณีใบหน้าที่รู้จักและไม่รู้จัก
+                แสงแตกต่างกัน มุมใบหน้าแตกต่างกัน และรูปลักษณ์เปลี่ยนไป
+              </p>
+            </article>
+            <article class="case-card">
+              <h3>ประเด็นที่ยังต้องกำหนด</h3>
+              <p>
+                เกณฑ์ความแม่นยำ เป้าหมายด้านประสิทธิภาพ
+                ระยะเวลาจัดเก็บข้อมูลส่วนบุคคล และสิทธิ์การเข้าถึง
+                ต้องได้รับการยืนยันจากผู้มีส่วนเกี่ยวข้อง
+                ไม่ควรกำหนดตัวเลขขึ้นเองหากไม่มีผลทดสอบหรือข้อกำหนดที่ตกลงกันไว้
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section wrap" id="deliverables">
+        <div class="section-heading">
+          <p class="eyebrow">05 / เอกสารประกอบ</p>
+          <h2>
+            เอกสารที่ใช้ประกอบ <span class="gradient-text">กรณีศึกษา</span>
+          </h2>
+          <p class="section-intro">
+            สามารถเปิดเอกสารต้นฉบับเพื่ออ่านรายละเอียดเพิ่มเติม
+            เอกสารเหล่านี้เป็นร่างสำหรับ Portfolio
+            และสามารถปรับปรุงได้เมื่อมีการตรวจสอบข้อมูลของโครงการเพิ่มเติม
+          </p>
+        </div>
+        <div class="doc-links">
+
+          <a
+          class="doc-link"
+          href="documents/BRD.pdf"
+          target="_blank"
+          rel="noopener"
+        >
+          <span>
+            <b>01 · เอกสารข้อกำหนดทางธุรกิจ (BRD)</b><br />
+            เป้าหมายทางธุรกิจ ขอบเขต และข้อสมมติ
+          </span>
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </a>
+        
+          <a
+            class="doc-link"
+            href="documents/FRS.pdf"
+            target="_blank"
+            rel="noopener"
+            ><span
+              ><b>02 · เอกสารข้อกำหนดเชิงหน้าที่ (FRS)</b
+              ><br />ข้อกำหนดการทำงานและเกณฑ์การยอมรับ</span
+            ><i class="fa-solid fa-arrow-up-right-from-square"></i
+          ></a>
+          <a
+            class="doc-link"
+            href="documents/Use-Case.pdf"
+            target="_blank"
+            rel="noopener"
+            ><span
+              ><b>03 · เอกสาร Use Case</b><br />ผู้เกี่ยวข้อง ขั้นตอนหลัก
+              และกรณียกเว้น</span
+            ><i class="fa-solid fa-arrow-up-right-from-square"></i
+          ></a>
+          <a
+            class="doc-link"
+            href="documents/Test-Cases.md"
+            target="_blank"
+            rel="noopener"
+            ><span
+              ><b>04 · เอกสารกรณีทดสอบ (Test Cases)</b
+              ><br />สถานการณ์ทดสอบและผลลัพธ์ที่คาดหวัง</span
+            ><i class="fa-solid fa-arrow-up-right-from-square"></i
+          ></a>
+          <a
+            class="doc-link"
+            href="documents/RTM.md"
+            target="_blank"
+            rel="noopener"
+            ><span
+              ><b>05 · ตารางเชื่อมโยงข้อกำหนด (RTM)</b
+              ><br />ความเชื่อมโยงระหว่างข้อกำหนดกับกรณีทดสอบ</span
+            ><i class="fa-solid fa-arrow-up-right-from-square"></i
+          ></a>
+          <a
+            class="doc-link"
+            href="documents/README.md"
+            target="_blank"
+            rel="noopener"
+            ><span
+              ><b>คู่มืออ่านเอกสาร</b
+              ><br />คำอธิบายวิธีอ่านและขอบเขตของเอกสาร</span
+            ><i class="fa-solid fa-arrow-up-right-from-square"></i
+          ></a>
+        </div>
+        <div class="case-footer-cta">
+          <div>
+            <h3>อยากพูดคุยเกี่ยวกับแนวคิดการวิเคราะห์ระบบไหม?</h3>
+            <p>
+              ยินดีพูดคุยเกี่ยวกับโครงงาน แนวทางการทดสอบ และการพัฒนาทักษะด้าน
+              Business Analysis
+            </p>
+          </div>
+          <a class="btn btn-primary" href="mailto:parichartsa24@gmail.com"
+            >ติดต่อฉัน <i class="fa-solid fa-arrow-right"></i
+          ></a>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="wrap footer-inner">
+        <a class="brand" href="index.html"
+          ><span class="brand-mark">Y</span
+          ><span>Portfolio<span class="brand-dot">.</span></span></a
+        >
+        <p>
+          ต้นแบบเชิงวิชาการ · กรณีศึกษา BA 
+        </p>
+        <span>© 2026 Parichart Saeyhoong</span>
+      </div>
+    </footer>
+    <script>
+      const toggle = document.querySelector(".menu-toggle");
+      const links = document.querySelector(".nav-links");
+      toggle.addEventListener("click", () => {
+        const open = links.classList.toggle("is-open");
+        toggle.setAttribute("aria-expanded", String(open));
+      });
+      links.querySelectorAll("a").forEach((a) =>
+        a.addEventListener("click", () => {
+          links.classList.remove("is-open");
+          toggle.setAttribute("aria-expanded", "false");
+        })
+      );
+    </script>
+  </body>
+</html>
